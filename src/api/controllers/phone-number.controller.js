@@ -10,9 +10,24 @@ exports.create = async (req, res, next) => {
     const number = new PhoneNumber(req.body);
     const savedPhoneNumber = await number.save();
 
-    res.status(httpStatus.CREATED);
-    res.json(savedPhoneNumber.transform());
+    res.status(httpStatus.CREATED).json(savedPhoneNumber.transform());
   } catch (error) {
     next(PhoneNumber.checkDuplicate(error));
+  }
+};
+
+/**
+ * Find number
+ * @public
+ */
+exports.query = async (req, res, next) => {
+  try {
+    const foundPhoneNumbers = await PhoneNumber.findByNumber(req.query.number);
+
+    res.json({
+      results: foundPhoneNumbers.map(phoneNumber => phoneNumber.transform())
+    });
+  } catch (error) {
+    next(error);
   }
 };

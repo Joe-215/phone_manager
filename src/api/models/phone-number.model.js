@@ -14,15 +14,14 @@ const phoneNumberSchema = new mongoose.Schema(
       type: String,
       required: true,
       maxlength: 128,
-      index: true,
       trim: true
     },
     number: {
       type: String,
       match: /^\+[1-9]\d{6,14}$/, // E.164 format
       index: true,
+      unique: false,
       required: true,
-      unique: true,
       trim: true
     },
     context: {
@@ -57,6 +56,23 @@ phoneNumberSchema.method({
  */
 phoneNumberSchema.statics = {
   /**
+   * Find phoneNumber by number
+   *
+   * @param {String} number - The phone number.
+   * @returns {Promise<PhoneNumber[], APIError>}
+   */
+  findByNumber(number) {
+    if (!number)
+      throw new APIError({
+        message: 'Number is required'
+      });
+
+    return this.find({ number })
+      .sort('-createdAt')
+      .exec();
+  },
+
+  /**
    * Return new validation error
    * if error is a mongoose duplicate key error
    *
@@ -66,10 +82,9 @@ phoneNumberSchema.statics = {
   checkDuplicate(error) {
     if (error.name === 'MongoError' && error.code === 11000) {
       return new APIError({
-        message: 'Number Duplicate Error',
+        message: '(Number, Context) Duplicate Error',
         errors: [
           {
-            field: 'number',
             messages: ['Combination of "number" and "context" already exists']
           }
         ],
