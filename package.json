@@ -65,7 +65,9 @@
     "method-override": "^2.3.8",
     "mongoose": "^4.9.7",
     "morgan": "^1.8.1",
-    "pm2": "^2.4.6"
+    "pm2": "^2.4.6",
+    "swagger-jsdoc": "^1.9.7",
+    "swagger-ui-express": "^2.0.15"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
