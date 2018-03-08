@@ -14,17 +14,21 @@
     "precommit": "yarn lint",
     "start": "cross-env NODE_ENV=production pm2 start ./src/index.js",
     "dev": "nodemon ./src/index.js",
-    "lint": "eslint **/*.js --ignore-path .gitignore --ignore-pattern internals/scripts",
+    "lint":
+      "eslint **/*.js --ignore-path .gitignore --ignore-pattern internals/scripts",
     "lint:fix": "yarn lint -- --fix",
     "lint:watch": "yarn lint -- --watch",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 20000 --recursive src/api/tests",
+    "test":
+      "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 20000 --recursive src/api/tests",
     "test:unit": "cross-env NODE_ENV=test mocha src/api/tests/unit",
-    "test:integration": "cross-env NODE_ENV=test mocha --timeout 20000 src/api/tests/integration",
+    "test:integration":
+      "cross-env NODE_ENV=test mocha --timeout 20000 src/api/tests/integration",
     "test:watch": "cross-env NODE_ENV=test mocha --watch src/api/tests/unit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "postcoverage": "opn coverage/lcov-report/index.html",
     "validate": "yarn lint && yarn test",
-    "postpublish": "git push --tags"
+    "postpublish": "git push --tags",
+    "import": "node ./src/scripts/import-seed.js"
   },
   "repository": {
     "type": "git",
@@ -58,6 +62,7 @@
     "dotenv-safe": "^4.0.4",
     "express": "^4.15.2",
     "express-validation": "^1.0.2",
+    "fast-csv": "^2.4.1",
     "helmet": "^3.5.0",
     "http-status": "^1.0.1",
     "joi": "^10.4.1",
@@ -67,7 +72,8 @@
     "morgan": "^1.8.1",
     "pm2": "^2.4.6",
     "swagger-jsdoc": "^1.9.7",
-    "swagger-ui-express": "^2.0.15"
+    "swagger-ui-express": "^2.0.15",
+    "yargs": "^11.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",

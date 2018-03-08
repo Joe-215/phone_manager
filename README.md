@@ -40,6 +40,12 @@ Set environment variables:
 cp .env.example .env
 ```
 
+## Importing CSV seed
+
+```
+yarn import {pathToCsv}
+```
+
 ## Running Locally
 
 ```bash
@@ -100,57 +106,4 @@ pm2 logs
 
 ## Documentation
 
-```bash
-# generate and open api documentation
-yarn docs
-```
-
-## Docker
-
-```bash
-# run container locally
-yarn docker:dev
-or
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
-
-# run container in production
-yarn docker:prod
-or
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
-
-# run tests
-yarn docker:test
-or
-docker-compose -f docker-compose.yml -f docker-compose.test.yml up
-```
-
-## Deploy
-
-Set your server ip:
-
-```bash
-DEPLOY_SERVER=127.0.0.1
-```
-
-Replace my Docker username with yours:
-
-```bash
-nano deploy.sh
-```
-
-Run deploy script:
-
-```bash
-yarn deploy
-or
-sh ./deploy.sh
-```
-
-## Inspirations
-
-* [KunalKapadia/express-mongoose-es6-rest-api](https://github.com/KunalKapadia/express-mongoose-es6-rest-api)
-* [diegohaz/rest](https://github.com/diegohaz/rest)
-
-## License
-
-[MIT License](README.md) - [Daniel Sousa](https://github.com/danielfsousa)
+Documentation of APIs are hosted using swagger on the path [/v1/docs](http://localhost:3000/v1/docs)
