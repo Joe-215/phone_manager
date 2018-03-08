@@ -1,5 +1,9 @@
+const Promise = require('bluebird');
 const mongoose = require('mongoose');
 const { mongo, env } = require('./vars');
+
+// set mongoose Promise to Bluebird
+mongoose.Promise = Promise;
 
 // Exit application on error
 mongoose.connection.on('error', err => {
@@ -21,7 +25,7 @@ if (env === 'development') {
 exports.connect = () => {
   mongoose.connect(mongo.uri, {
     keepAlive: 1,
-    useMongoClient: true,
+    useMongoClient: true
   });
   return mongoose.connection;
 };
