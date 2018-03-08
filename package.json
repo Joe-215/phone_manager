@@ -50,7 +50,6 @@
     "API"
   ],
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.17.0",
     "compression": "^1.6.2",

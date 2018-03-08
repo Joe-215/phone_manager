@@ -153,4 +153,61 @@ describe('PhoneNumbers API', async () => {
         });
     });
   });
+
+  describe('GET /v1/number/query', () => {
+    beforeEach(async () => {
+      await PhoneNumber.insertMany([phoneNumber]);
+    });
+
+    it('should filter phoneNumbers', () => {
+      return request(app)
+        .get('/v1/number/query')
+        .query({ number: phoneNumber.number })
+        .expect(httpStatus.OK)
+        .then(res => {
+          expect(res.body).to.have.property('results');
+          expect(res.body.results).to.be.an('array');
+          expect(res.body.results).to.have.lengthOf(2);
+
+          expect(isMatch(res.body.results[0], phoneNumber)).to.be.true;
+          expect(isMatch(res.body.results[1], dbPhoneNumbers.davidPersonal)).to
+            .be.true;
+        });
+    });
+
+    it('should report error when query is not provided', () => {
+      delete phoneNumber.number;
+
+      return request(app)
+        .get('/v1/number/query')
+        .expect(httpStatus.BAD_REQUEST)
+        .then(res => {
+          const { field, location, messages } = res.body.errors[0];
+
+          expect(field).to.be.equal('number');
+          expect(location).to.be.equal('query');
+          expect(messages).to.include('"number" is required');
+        });
+    });
+
+    it('should report error when number is not in E.164 format', () => {
+      phoneNumber.number = '123456789';
+
+      return request(app)
+        .get('/v1/number/query')
+        .query({ number: phoneNumber.number })
+        .expect(httpStatus.BAD_REQUEST)
+        .then(res => {
+          const { field, location, messages } = res.body.errors[0];
+
+          expect(field).to.be.equal('number');
+          expect(location).to.be.equal('query');
+          expect(messages).to.include(
+            `"number" with value "${
+              phoneNumber.number
+            }" fails to match the E.164 pattern`
+          );
+        });
+    });
+  });
 });
